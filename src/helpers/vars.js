@@ -1,0 +1,1 @@
+export const limitValue = 10;
