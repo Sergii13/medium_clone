@@ -10,6 +10,8 @@ import {actionsType} from '@/store/modules/feed'
 import McvPagination from '@/components/Pagination.vue'
 import McvLoading from '@/components/Loading.vue'
 import McvErrorMessage from '@/components/ErrorMessage.vue'
+import McvArticleTags from '@/components/ArticleTags.vue'
+import McvAddToFavorites from '@/components/AddToFavorites.vue'
 import {limitValue} from '@/helpers/vars'
 import {useRoute} from 'vue-router'
 import queryString from 'query-string'
@@ -27,6 +29,7 @@ const props = defineProps({
 const apiUrl = computed(() => {
   return props.apiUrl
 })
+
 watch(apiUrl, () => {
   fetchFeed()
 })
@@ -88,7 +91,7 @@ watch(currentPage, () => {
         <div class="article-meta">
           <router-link
             :to="{
-              name: 'globalFeed',
+              name: 'userProfile',
               params: {slug: article.author.username},
             }"
           >
@@ -105,7 +108,13 @@ watch(currentPage, () => {
             </router-link>
             <span class="date">{{ article.createdAt }}</span>
           </div>
-          <div class="pull-xs-right">ADD TO FAVORITES</div>
+          <div class="pull-xs-right">
+            <mcv-add-to-favorites
+              :isFavorited="article.favorited"
+              :article-slug="article.slug"
+              :favoritesCount="article.favoritesCount"
+            />
+          </div>
         </div>
         <router-link
           :to="{name: 'article', params: {slug: article.slug}}"
@@ -114,7 +123,7 @@ watch(currentPage, () => {
           <h1>{{ article.title }}</h1>
           <p>{{ article.description }}</p>
           <span>Read more...</span>
-          TAG LIST
+          <mcv-article-tags :tags="article.tagList" />
         </router-link>
       </div>
       <mcv-pagination

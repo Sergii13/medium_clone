@@ -1,1 +1,1 @@
-export const limitValue = 10;
+export const limitValue = 5;

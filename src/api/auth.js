@@ -9,8 +9,13 @@ const login = (credentials) => {
 const getCurrentUser = () => {
    return axios.get('/user')
 }
+const updateCurrentUser = (currentUserInput) => {
+   return axios.put('/user', { user: currentUserInput })
+      .then(response => response.data.user)
+}
 export default {
    register,
    login,
-   getCurrentUser
+   getCurrentUser,
+   updateCurrentUser,
 }
